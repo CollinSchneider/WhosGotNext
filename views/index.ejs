@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="WhosGotNext">
+  <head>
+    <meta charset="utf-8">
+    <title>Whos Got Next!?</title>
+    <link rel="stylesheet" href="/css/styles.css" media="screen" title="no title" charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-cookies.min.js" charset="utf-8"></script>
+    <script src="/js/app.js" charset="utf-8"></script>
+  </head>
+  <body>
+
+
+    <!-- <container id = "whole-body"> -->
+        <div id = "banner">
+          <h1 id = "title"><span id = "who"> Who</span><span id = "got"> Got</span> <span id = "next"> Next!?</span> </h1>
+        </div>
+
+        <container ng-controller="UsersController" >
+
+        <div ng-hide="loggedIn">
+
+          <h1>Sign Up</h1>
+          <form ng-submit="createUser()">
+            <input type="username" name="name" ng-model="newUser.username" value="" placeholder="Username">
+            <input type="password" name="name" ng-model="newUser.password" value="" placeholder = "password" >
+            <input type="number" name="name" ng-model="newUser.skill_level" value="" placeholder = "Skill Level">
+            <input type="submit" name="name" value="Sign Up">
+          </form>
+
+          <h1>Users: </h1>
+          <div ng-repeat = "user in users">
+            <h3> {{user.username}} </h3>
+          </div>
+
+          <h1>Login</h1>
+          <form ng-submit="loginUser()">
+            <input type="text" name="name" placeholder = "username" ng-model="user.username">
+            <input type="password" name="name" value="" placeholder="password" ng-model="user.password">
+            <input type="submit" name="name" value="Login">
+          </form>
+
+        </div>
+
+
+          <div ng-show="loggedIn">
+            <button ng-click="logout()" ng-show="loggedIn">Logout</button>
+            <h1>LOGGED IN!!</h1>
+
+            <div ng-controller="CourtsController">
+              <h1> Courts: </h1>
+                  <div ng-repeat = "court in courts">
+                    <h2> {{ court.name }} </h2>
+
+                    <div ng-controller="GamesController">
+
+                      <h4>Create a game at {{court.name}}</h4>
+                      <form ng-submit="createGame(court._id)">
+                        <input type="date" name="name" value="" placeholder = "Date of Game" ng-model="newGame.date">
+                        <input type="text" name="name" value="" placeholder = "Time of Game" ng-model="newGame.time">
+                        <input type="submit" name="name" value="Create Game at {{court.name}}">
+                      </form>
+
+                      <h4>Games:</h4>
+                      <ul>
+                        <div ng-repeat ="game in games">
+                          <li> There is a game on {{game.date | date}} at {{game.time}}...court ID: {{game.court}} </li>
+                        </div>
+                      </ul>
+
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+        </container>
+
+
+  </body>
+</html>
