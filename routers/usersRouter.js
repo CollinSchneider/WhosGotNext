@@ -25,7 +25,7 @@ router.post('/authenticate', function(req, res){
         console.log('password: ', req.body.password);
         if(isMatch){
           dbUser.setToken(err, function(){
-            res.json({description: "success!!", token: dbUser.token})
+            res.json({description: "success!!", token: dbUser.token, userId: dbUser.id})
           })
         }
       })
@@ -41,10 +41,5 @@ router.get('/authenticate', function(req, res){
   })
 })
 
-// router.delete('/authenticate', function(req ,res){
-//   User.findOneAndRemove({token: $scope.cookies}, function(err, dbUser){
-//     console.log('logging out?');
-//   })
-// })
 
 module.exports = router;

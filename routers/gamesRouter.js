@@ -8,6 +8,13 @@ router.get('/', function(req, res){
   })
 })
 
+router.get('/:id', function(req, res){
+  var gameId = req.params.id;
+  Game.findById(gameId, function(err, dbGame){
+    res.json({game: dbGame})
+  })
+})
+
 router.post('/', function(req, res){
   var newGame = new Game(req.body.game);
   console.log(newGame);

@@ -1,0 +1,18 @@
+
+<h4>Create a game </h4>
+<form ng-submit="createGame()" class="form-inline">
+  <input type="date" name="name" value="" placeholder = "Date of Game" ng-model="newGame.date">
+  <select ng-model = "newGame.court_id">
+    <option ng-repeat= "court in courts" value = "{{court._id}}"> {{court.name}} </option>
+  </select>
+  <input type="text" name="name" value="" placeholder = "Time of Game" ng-model="newGame.time">
+  <input type="submit" name="name" value="Create Game" class="btn btn-primary">
+</form>
+
+<h4>Games:</h4>
+<ul>
+  <div ng-repeat ="game in games">
+    <li> There is a game on {{game.date | date}} at {{game.time}} at {{game.court_name}} </li>
+    <button ng-click=getGame(game._id)>Join this game</button>
+  </div>
+</ul>

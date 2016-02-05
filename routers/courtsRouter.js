@@ -9,7 +9,9 @@ router.get('/', function(req, res){
 })
 
 router.get('/:id', function(req, res){
-  Court.find({court: req.body._id}, function(err, dbCourt){
+  var courtId = req.params.id;
+  console.log('Court ID: ', courtId);
+  Court.findById(courtId, function(err, dbCourt){
     res.json(dbCourt)
   })
 })

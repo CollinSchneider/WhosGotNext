@@ -13,10 +13,16 @@ mongoose.connect('mongodb://localhost/whos_got_next', function(err){
 
 var courts = [
   {
-    name: 'another court',
-    location: '5505 Woodisde Ave, Woodside, NY',
-    longitude: '-73.000',
-    latitude: '40.234'
+    name: 'Other Court',
+    location: '5505 Woodside Ave, Woodside, NY',
+    longitude: '-73',
+    latitude: '40.2479'
+  },
+  {
+    name: 'Test Court',
+    location: '10 E 21st St, New York, NY',
+    longitude: '-73.8473',
+    latitude: '40.8721'
   }
 ];
 
