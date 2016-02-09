@@ -8,6 +8,13 @@ router.get('/', function(req, res){
   })
 })
 
+router.get('/:id', function(req, res){
+  var userId = req.params.id
+  User.findById(userId, function(err, dbUser){
+    res.json({user: dbUser})
+  })
+})
+
 router.post('/', function(req, res){
   var newUser = new User(req.body.user)
   newUser.save('/', function(err, dbUser){
@@ -16,16 +23,23 @@ router.post('/', function(req, res){
   })
 })
 
+router.put('/:id', function(req, res){
+  var userId = req.params.id;
+  console.log("user Id: ", userId);
+  console.log('req: ', req);
+  User.findByIdAndUpdate(userId, req.body, function(err, dbUser){
+    res.json( dbUser )
+  })
+})
 
 router.post('/authenticate', function(req, res){
   User.findOne({username: req.body.username}, function(err, dbUser){
-    console.log('username: ', req.body.username);
     if(dbUser){
       dbUser.authenticate(req.body.password, function(err, isMatch){
-        console.log('password: ', req.body.password);
         if(isMatch){
           dbUser.setToken(err, function(){
-            res.json({description: "success!!", token: dbUser.token, userId: dbUser.id})
+            res.json({description: "success!!", token: dbUser.token, userId: dbUser.id, skill_level: dbUser.skill_level});
+            console.log('dbUser: ', dbUser);
           })
         }
       })

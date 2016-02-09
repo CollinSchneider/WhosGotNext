@@ -1,0 +1,6 @@
+<a ng-href="#/games" class = "nav-links">All Games</a><a ng-href="#/today" class = "nav-links">Todays Games</a><a ng-href="#/" class = "nav-links">Create a Game</a><a ng-href='#/yourgames' class = "nav-links">Your Games</a> </br>
+<input ng-model="search.$" placeholder = "Search for a court">
+<div id = "all-courts" ng-repeat = "court in courts | filter:search">
+  <h2> <a ng-href="#/courts/{{ court._id }}">  {{ court.name }} </a></h2>
+  <h4> {{court.location }} </h4>
+</div>

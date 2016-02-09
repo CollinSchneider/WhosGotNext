@@ -1,0 +1,6 @@
+<a ng-href="#/courts" class = "nav-links">All Courts</a><a ng-href ="#/games" class = "nav-links">All Games</a><a ng-href-"#/today" class = "nav-links">Today's Games</a><a ng-href="#/" class = "nav-links">Create a Game</a><a ng-href='#/yourgames' class = "nav-links">Your Games</a>
+<h1> {{court.name}} </h1>
+<div ng-repeat="game in courtsGames">
+  <h4> There is on {{game.date | date}} at {{ game.time | date: 'shortTime'}}. There are {{game.players.length}} players playing. </h4>
+  <button ng-click="joinGame(game._id); addGameToUser(game._id)" class="btn btn-primary">Join Game</button>
+</div>

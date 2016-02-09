@@ -8,68 +8,84 @@ var GameSchema = mongoose.Schema({
   longitude: { type: String },
   latitude: { type: String },
   location: { type: String },
-  players: {
-    player1: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player2: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player3: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player4: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player5: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player6: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player7: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player8: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player9: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player10: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player11: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    },
-    player12: {
-      username: { type: String },
-      skill_level: { type: Number },
-      user_id: { type: String }
-    }
-  }
+  created_by: { type: String },
+  skill_level: { type: Number },
+  players: []
+  // players: [ { type: Number, unique: true} ]
+  // players: {
+  //   player1: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player2: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player3: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player4: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player5: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player6: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player7: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player8: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player9: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player10: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player11: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   },
+  //   player12: {
+  //     username: { type: String },
+  //     user_id: { type: String },
+  //     skill_level: { type: Number },
+  //     user_id: { type: String }
+  //   }
+  // }
 })
 
 var Game = mongoose.model('Game', GameSchema);

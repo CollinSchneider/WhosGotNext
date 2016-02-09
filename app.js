@@ -22,7 +22,7 @@ var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 app.get('/', function(req, res){
-  res.render('index.ejs')
+  res.render(__dirname + '/public/views/index.ejs')
 })
 
 var gamesRouter = require('./routers/gamesRouter');

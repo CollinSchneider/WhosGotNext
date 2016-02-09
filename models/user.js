@@ -6,6 +6,7 @@ var UserSchema = mongoose.Schema({
   username: { type: String },
   password: { type: String },
   token: { type: String },
+  games: [],
   skill_level: { type: Number }
 })
 
