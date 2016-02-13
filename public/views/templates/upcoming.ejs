@@ -1,12 +1,33 @@
-<a ng-href = "#/" class = "nav-links">Create a Game</a> <a ng-href='#/games' class = "nav-links">All Games</a><a ng-href='#/courts' class = "nav-links">View Courts</a><a ng-href='#/yourgames' class = "nav-links">Your Games</a>
-<h3>Today's Games ({{ todaysDate | date}})</h3>
-<div ng-repeat = "game in todaysGames" id = "todays-games">
+<i class="fa fa-bars" ng-click="dropped = true" ng-hide="dropped" id ="dropdown-button"></i>
+<ul id = "dropdown" ng-show = "dropped">
+
+  <a ng-href="#/courts">
+  <li class = "nav-links"> All Courts </li>
+  </a>
+
+  <a ng-href="#/games">
+  <li class = "nav-links">All Games</li>
+  </a>
+
+  <a ng-href="#/">
+    <li class = "nav-links">Create a Game</li>
+  </a>
+  <a ng-href='#/yourgames'>
+    <li>Your Games</li>
+  </a>
+
+  <a ng-click="logout()" ng-show="loggedIn" id = "logout">
+    <li> Logout </li>
+  </a>
+
+  <a ng-click="dropped = false" id = "exit">
+  <li>X</li>
+  </a>
+</ul>
+
+<h2 id = "game-title">Today's Games ({{ todaysDate | date}})</h3>
+<div ng-repeat = "game in todaysGames" id = "each-game">
   <h5> There is a game at {{ game.court_name }} at {{game.time | date: 'shortTime'}} </h5>
-  <button type="button" ng-click="joinGame(game._id); addGameToUser(game._id)" class = "btn btn-primary"> Join Game</button>
+  <h5> Skill Level: {{ game.skill_level/game.players.length }} </h5>
+  <a id = "join-game-button" ng-click="joinGame(game._id); addGameToUser(game._id)" class="btn btn-primary">Join Game</a>
 </div>
-<!-- <ul>
-  <div ng-repeat ="game in games">
-    <li> There is a game on {{game.date | date}} at {{game.time}} at {{game.court_name}} </li>
-    <button ng-click=getGame(game._id)>Join this game</button>
-  </div>
-</ul> -->

@@ -1,7 +1,40 @@
-<a ng-href = "#/" class = "nav-links">Create a Game</a> <a ng-href='#/courts' class = "nav-links">View Courts</a><a ng-href='#/yourgames' class = "nav-links">Your Games</a> <a ng-href="#/today" class = "nav-links">Today's Games</a> </br>
-<input ng-model="search.$" name="name" value="" placeholder="Search for Games">
+<i class="fa fa-bars" ng-click="dropped = true" ng-hide="dropped" id ="dropdown-button"></i>
+<ul id = "dropdown" ng-show = "dropped">
+
+  <a ng-href="#/courts">
+  <li class = "nav-links"> All Courts </li>
+  </a>
+
+  <a ng-href="#/today">
+  <li class = "nav-links">Today's Games</li>
+  </a>
+
+  <a ng-href="#/">
+    <li class = "nav-links">Create a Game</li>
+  </a>
+
+  <a ng-href='#/yourgames'>
+    <li>Your Games</li>
+  </a>
+
+  <a ng-click="logout()" ng-show="loggedIn" id = "logout">
+    <li> Logout </li>
+  </a>
+
+  <a ng-click="dropped = false" id = "exit">
+  <li>X</li>
+  </a>
+</ul>
+
+<h2 id = "game-title"> All Games: </h2>
+<input id = "search-games" ng-model="search.$" name="name" value="" placeholder="SEARCH FOR GAMES">
 </div>
   <div ng-repeat ="game in games | orderBy: ['date', 'time'] | filter:search">
-    <h4> There is a game on {{game.date | date}} at {{game.time | date: 'shortTime'}} at {{game.court_name}} </h4>
-    <button ng-click="joinGame(game._id); addGameToUser(game._id)" class = "btn btn-primary">Join this game</button>
+
+    <div id="each-game" ng-if="game.date >= todaysDate">
+      <h4> There is a game on {{game.date | date}} at {{game.time | date: 'shortTime'}} at {{game.court_name}} </h4>
+      <h5> Skill Level: {{ game.skill_level/game.players.length }} </h5>
+      <a id = "join-game-button" ng-click="joinGame(game._id); addGameToUser(game._id)" class="btn btn-primary">Join Game</a>
+    </div>
+
   </div>

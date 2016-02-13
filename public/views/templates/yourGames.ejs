@@ -1,7 +1,39 @@
-<a ng-href = "#/" class = "nav-links">Create a Game</a> <a ng-href='#/games' class = "nav-links">All Games</a><a ng-href='#/courts' class = "nav-links">View Courts</a><a ng-href="#/today" class = "nav-links">Today's Games</a>
-<h1> Games you are attending: </h1>
+<i class="fa fa-bars" ng-click="dropped = true" ng-hide="dropped" id ="dropdown-button"></i>
+<ul id = "dropdown" ng-show = "dropped">
+
+  <a ng-href="#/courts">
+  <li class = "nav-links"> All Courts </li>
+  </a>
+
+  <a ng-href="#/games">
+  <li class = "nav-links">All Games</li>
+  </a>
+
+  <a ng-href="#/today">
+  <li class = "nav-links">Today's Games</li>
+  </a>
+
+  <a ng-href="#/">
+    <li class = "nav-links">Create a Game</li>
+  </a>
+
+  <a ng-click="logout()" ng-show="loggedIn" id = "logout">
+    <li> Logout </li>
+  </a>
+
+  <a ng-click="dropped = false" id = "exit">
+  <li>X</li>
+  </a>
+
+</ul>
+
+<h1 id = "game-title"> Games you are attending: </h1>
 <div ng-repeat="game in allYourGames track by $index">
-  <h4>You have a game at {{game.court_name}} on {{game.date | date: 'fullDate'}} at {{game.time | date: 'shortTime'}}</h4>
-  <a ng-click="leaveGame(game.id); removeGameFromUser()" class = "btn btn-danger">Leave Game</a>
-  <hr>
+
+  <div ng-if="game.date >= todaysDate" id = "each-game">
+    <h4>You have a game at <a ng-href = "#/courts/{{game.court_id}}">{{game.court_name}}</a> on {{game.date | date: 'fullDate'}} at {{game.time | date: 'shortTime'}}</h4>
+    <h5> Skill Level: {{ game.skill_level/game.players.length }} </h5>
+    <!-- <a ng-click="leaveGame(game.id); removeGameFromUser()" class = "btn btn-danger">Leave Game</a> -->
+  </div>
+
 </div>

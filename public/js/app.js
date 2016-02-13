@@ -30,6 +30,7 @@ app.controller('UsersController', ['$scope', '$http', '$cookies', function($scop
 
   $scope.createUser = function(){
     $http.post('/api/users', {user: $scope.newUser}).then(function(response){
+      $scope.signedup = true;
       $scope.newUser = {};
     })
   }
@@ -40,6 +41,7 @@ app.controller('UsersController', ['$scope', '$http', '$cookies', function($scop
       $cookies.put('token', $scope.user.token);
       $cookies.put('user-id', $scope.user.userId);
       $cookies.put('skill_level', $scope.user.skill_level);
+      $scope.dropped = false;
       $scope.checkForUser();
     })
   }
@@ -56,8 +58,10 @@ app.controller('UsersController', ['$scope', '$http', '$cookies', function($scop
   }
 
   $scope.logout = function(){
+    $scope.dropped = false;
     $cookies.remove('token');
     $cookies.remove('user-id');
+    $cookies.remove('skill_level');
     $scope.checkForUser();
   }
 
@@ -72,41 +76,47 @@ app.controller('CourtsController', ['$scope', '$http', function($scope, $http){
   $scope.getCourts = function(){
     $http.get('/api/courts').then(function(response){
       $scope.courts = response.data.courts
+      console.log('courts: ', $scope.courts);
 
-      this.zoom = 11;
+      this.zoom = 12;
       this.currentLatLng = new google.maps.LatLng( 40.7833, -73.9667 );
       this.mapEl = document.querySelector('#map');
 
       var myMap = {};
 
-      this.map = new google.maps.Map( this.mapEl, {
+      var map = new google.maps.Map( this.mapEl, {
           center: this.currentLatLng,
           zoom: this.zoom,
           mapTypeId: google.maps.MapTypeId.DROP
       })
 
+      var markers = [];
       for (var i = 0; i < $scope.courts.length; i++) {
         var court = $scope.courts[i];
-        this.courtLatLng = new google.maps.LatLng( court.latitude, court.longitude );
-        var contentString = '<h1>'+ court.name +'</h1>'
+        this.courtLatLng = new google.maps.LatLng( court.lat, court.lon );
 
-        this.infoWindow = new google.maps.InfoWindow({
-          content: contentString
-        })
+        var icon = {
+          url: "../images/basketball.png",
+          scaledSize: new google.maps.Size(40, 40)
+        }
 
         this.marker = new google.maps.Marker({
           position: this.courtLatLng,
-          map: this.map,
-          title: court.name,
-          // icon: '../images/noun_300626_cc.png',
-          // size: new google.maps.Size(3, 4),
+          map: map,
+          title: court.Name,
+          court_id: court._id,
+          icon: icon,
           animation: google.maps.Animation.DROP
-        })
+        });
+
+        markers.push(marker);
 
         this.marker.addListener('click', function(){
-          this.infoWindow.open(this.map, marker);
+          var courtId = this.court_id;
+          window.location.href = "#/courts/" + courtId;
         })
       }
+      var markerCluster = new MarkerClusterer(map, markers);
 
     })
   }
@@ -114,19 +124,44 @@ app.controller('CourtsController', ['$scope', '$http', function($scope, $http){
   $scope.getCourts();
 }])
 
-app.controller('CourtDetailsController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
+app.controller('CourtDetailsController', ['$scope', '$http', '$routeParams', '$cookies', function($scope, $http, $routeParams, $cookies){
 
-  $http.get('/api/courts/' + $routeParams.id).then(function(response){
-    $scope.court = response.data;
-    $scope.courtGames = $scope.court.games;
-    $http.get('/api/games?court_id=' + $scope.court._id).then(function(response){
-      $scope.courtsGames = response.data.games;
-      // console.log('court games: ', $scope.courtsGames);
+  $scope.createGameOnCourt = function(courtId){
+    $http.get('/api/courts/' + courtId).then(function(response){
+      var court = response.data;
+      $scope.newGame.court_id = courtId;
+      $scope.newGame.longitude = court.lon;
+      $scope.newGame.latitude = court.lat;
+      $scope.newGame.location = court.Location;
+      $scope.newGame.court_name = court.Name;
+      $scope.newGame.players = $cookies.get('user-id');
+      $scope.newGame.created_by = $cookies.get('user-id');
+      $scope.newGame.date = $scope.newGame.date;
+      $scope.newGame.skill_level = $cookies.get('skill_level');
+      console.log('scope newgame: ', $scope.newGame);
+      $http.post('/api/games', {game: $scope.newGame}).then(function(response){
+        $scope.getGames();
+        getCourtsGames();
+        $scope.makeGame = false;
+        var game = response.data;
+        $scope.newGame = $scope.masterGame;
+        $scope.addGameToUser(game._id);
+      })
+    });
+  }
+
+  getCourtsGames = function(){
+    $http.get('/api/courts/' + $routeParams.id).then(function(response){
+      $scope.court = response.data;
+      $scope.courtGames = $scope.court.games;
+      $http.get('/api/games?court_id=' + $scope.court._id).then(function(response){
+        $scope.courtsGames = response.data.games;
+      })
     })
-    // for (var i = 0; i < $scope.court.games.length; i++) {
-    //   $scope.courtGame = $scope.court.games[i]
-    // }
-  })
+  }
+
+  getCourtsGames()
+
 }])
 
 
@@ -155,13 +190,10 @@ app.controller('GamesController', ['$scope', '$http', '$cookies', '$timeout', '$
       $scope.allYourGames = [];
       $scope.games = response.data.games;
       $scope.getYourGames($cookies.get('user-id'));
-      // console.log('yourGames: ', $scope.yourGames);
       for (var i = 0; i < $scope.games.length; i++) {
         var game = $scope.games[i];
-        // console.log('game: ', game );
         if($scope.yourGames.indexOf(game._id) != -1){
           $scope.allYourGames.push(game);
-          // console.log($scope.allYourGames);
         }
       }
     })
@@ -186,74 +218,26 @@ app.controller('GamesController', ['$scope', '$http', '$cookies', '$timeout', '$
     })
   }
 
-  $scope.getGame = function(gameId){
-    $http.get('/api/games/' + gameId).then(function(response){
-      var game = response.data.game;
-      var players = game.players;
-      var userId = $cookies.get('user-id');
-      players.push(userId);
-    })
-  }
-
-  $scope.getPlayersArray = function(gameId){
-    $http.get('/api/games/' + gameId).then(function(response){
-      var game = response.data.game;
-      var players = game.players;
-      var userId = $cookies.get('user-id');
-      players.push(userId);
-      return players;
-    });
-  };
-
   $scope.joinGame = function(gameId){
-    // console.log('game id: ', gameId);
     $http.get('/api/games/' + gameId).then(function(response){
-      // console.log(response);
       var game = response.data;
       var players = game.players;
       var userId = $cookies.get('user-id');
-      // var game_skill_level = game.skill_level.to_i;
-      // console.log('game skill: ', game_skill_level);
-      // var user_skill_level = $cookies.get('skill_level').to_i;
-      // console.log('user skill: ', user_skill_level);
-      // var skill_level = skill_level + user_skill_level;
-      // console.log(players.indexOf(userId));
+      var gameSkill = parseInt(game.skill_level);
+      var userSkill = parseInt($cookies.get('skill_level'));
+      var skillLevel = gameSkill + userSkill;
       if(players.indexOf(userId) === -1){
         players.push(userId);
-        // console.log('game players: ', players);
-        $http.put('/api/games/' + gameId, { players: players, skill_level: 666 }).then(function(response){
+        $http.put('/api/games/' + gameId, { players: players, skill_level: skillLevel }).then(function(response){
+          alert("Joined Game!");
+          document.getElementById('join-game-button').className = "btn btn-primary disabled";
           console.log('after put request: ', response);
         })
       }
     })
   }
 
-  // $scope.leaveGame = function(gameId){
-  //   $http.get('/api/games/' + gameId).then(function(response){
-  //     var games = response.data.games;
-  //     for (var i = 0; i < games.length; i++) {
-  //       var game = games[i];
-  //       var players = game.players;
-  //       for (var j = 0; j < players.length; j++) {
-  //         var player = players[j];
-  //         console.log(player);
-  //         console.log($cookies.get('user-id'));
-  //         if(player === $cookies.get('user-id')){
-  //           players.splice(j, 1);
-  //           console.log('players: ', players);
-  //         }
-  //       }
-  //     }
-  //     $scope.getGames();
-  //   })
-  // }
-  //
-  // $scope.removeGameFromUser = function(){
-  //   $http.get('')
-  // }
-
   $scope.addGameToUser = function(gameId){
-    // console.log('game Id: ', gameId);
     $http.get('/api/users/' + $cookies.get('user-id')).then(function(response){
       var user = response.data.user;
       var games = user.games;
@@ -262,26 +246,19 @@ app.controller('GamesController', ['$scope', '$http', '$cookies', '$timeout', '$
         $http.put('/api/users/' + $cookies.get('user-id'), { games: games });
       } else {
         alert('You are already attending this game!');
+        document.getElementById('join-game-button').className = "btn btn-primary disabled";
         $scope.alreadyPlaying = true;
       }
-    })
-  }
-
-  $scope.getCourtsGames = function(courtId){
-    $http.get('/api/games?court_id=' +courtId).then(function(response){
-      $window.location.href = '#/courts/' +courtId;
-      var games = response.data.games;
-      $scope.courtsGames = games;
     })
   }
 
   $scope.createGame = function(){
     $http.get('/api/courts/' + $scope.newGame.court_id).then(function(response){
       var court = response.data;
-      $scope.newGame.longitude = court.longitude;
-      $scope.newGame.latitude = court.latitude;
-      $scope.newGame.location = court.location;
-      $scope.newGame.court_name = court.name;
+      $scope.newGame.longitude = court.lon;
+      $scope.newGame.latitude = court.lat;
+      $scope.newGame.location = court.Location;
+      $scope.newGame.court_name = court.Name;
       $scope.newGame.players = $cookies.get('user-id');
       $scope.newGame.created_by = $cookies.get('user-id');
       $scope.newGame.date = $scope.newGame.date;
@@ -290,6 +267,10 @@ app.controller('GamesController', ['$scope', '$http', '$cookies', '$timeout', '$
       $http.post('/api/games', {game: $scope.newGame}).then(function(response){
         $scope.getGames();
         var game = response.data;
+        $scope.gameCreated = true;
+        $timeout(function(){
+          $scope.gameCreated = false
+        }, 2000);
         $scope.newGame = $scope.masterGame;
         $scope.addGameToUser(game._id);
       })
@@ -300,11 +281,9 @@ app.controller('GamesController', ['$scope', '$http', '$cookies', '$timeout', '$
     var date = new Date();
     date.setHours(0, 0, 0, 0);
     $scope.todaysDate = date.toISOString();
-    // console.log('todays date: ', $scope.todaysDate);
   }
 
   $scope.getDate();
-
   $scope.getYourGames();
   $scope.getGames();
 }])

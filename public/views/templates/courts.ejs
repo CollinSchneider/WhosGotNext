@@ -1,6 +1,35 @@
-<a ng-href="#/games" class = "nav-links">All Games</a><a ng-href="#/today" class = "nav-links">Todays Games</a><a ng-href="#/" class = "nav-links">Create a Game</a><a ng-href='#/yourgames' class = "nav-links">Your Games</a> </br>
-<input ng-model="search.$" placeholder = "Search for a court">
+<i class="fa fa-bars" ng-click="dropped = true" ng-hide="dropped" id ="dropdown-button"></i>
+<ul id = "dropdown" ng-show = "dropped">
+
+  <a ng-href="#/games">
+  <li class = "nav-links">All Games</li>
+  </a>
+
+  <a ng-href="#/today">
+  <li class = "nav-links">Today's Games</li>
+  </a>
+
+  <a ng-href="#/">
+    <li class = "nav-links">Create a Game</li>
+  </a>
+
+  <a ng-href='#/yourgames'>
+    <li>Your Games</li>
+  </a>
+
+  <a ng-click="logout()" ng-show="loggedIn" id = "logout">
+    <li> Logout </li>
+  </a>
+
+  <a ng-click="dropped = false" id = "exit">
+  <li>X</li>
+  </a>
+</ul>
+
+
+<h2 id = "game-title"> NYC Courts: </h2>
+<input ng-model="search.$" placeholder = "SEARCH FOR A COURT" id = "search-games">
 <div id = "all-courts" ng-repeat = "court in courts | filter:search">
-  <h2> <a ng-href="#/courts/{{ court._id }}">  {{ court.name }} </a></h2>
-  <h4> {{court.location }} </h4>
+  <h3> <a ng-href="#/courts/{{ court._id }}">  {{ court.Name }} </a></h3>
+  <h5> {{court.Location }} </h5>
 </div>

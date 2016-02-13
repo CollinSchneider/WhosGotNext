@@ -1,9 +1,39 @@
-<a ng-href='#/today' class = "nav-links">Todays Games</a> <a ng-href = "#/games" class = "nav-links">View All Games</a><a ng-href='#/courts' class = "nav-links">View Courts</a><a ng-href='#/yourgames' class = "nav-links">Your Games</a>
-<h1>Create a game </h1>
+<i class="fa fa-bars" ng-click="dropped = true" ng-hide="dropped" id ="dropdown-button"></i>
+<ul id = "dropdown" ng-show = "dropped">
+
+  <a ng-href="#/courts">
+  <li class = "nav-links"> All Courts </li>
+  </a>
+
+  <a ng-href="#/games">
+  <li class = "nav-links">All Games</li>
+  </a>
+
+  <a ng-href="#/today">
+  <li class = "nav-links">Today's Games</li>
+  </a>
+
+  <a ng-href="#/">
+    <li class = "nav-links">Create a Game</li>
+  </a>
+  <a ng-href='#/yourgames'>
+    <li>Your Games</li>
+  </a>
+
+  <a ng-click="logout()" ng-show="loggedIn" id = "logout">
+    <li> Logout </li>
+  </a>
+
+  <a ng-click="dropped = false" id = "exit">
+  <li>X</li>
+  </a>
+</ul>
+
+<h1 id = "game-title">Create a game </h1>
 <form ng-submit="createGame()" class="create-game-form">
   <input type="date" name="name" value="" placeholder = "Date of Game" ng-model="newGame.date"> </br>
   <select ng-model = "newGame.court_id">
-    <option ng-repeat= "court in courts" value = "{{court._id}}"> {{court.name}} </option>
+    <option ng-repeat= "court in courts" value = "{{court._id}}"> {{court.Name}} </option>
   </select> </br>
   <input type="time" name="name" value="" placeholder = "Time of Game" ng-model="newGame.time"> </br>
   <input type="submit" name="name" value="Create Game" class="btn btn-primary">
