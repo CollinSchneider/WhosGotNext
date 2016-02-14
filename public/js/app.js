@@ -231,6 +231,7 @@ app.controller('GamesController', ['$scope', '$http', '$cookies', '$timeout', '$
         $http.put('/api/games/' + gameId, { players: players, skill_level: skillLevel }).then(function(response){
           alert("Joined Game!");
           document.getElementById('join-game-button').className = "btn btn-primary disabled";
+          $scope.getGames();
           console.log('after put request: ', response);
         })
       }

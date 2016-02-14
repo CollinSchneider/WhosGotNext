@@ -27,7 +27,7 @@
 
 <h2 id = "game-title">Today's Games ({{ todaysDate | date}})</h3>
 <div ng-repeat = "game in todaysGames" id = "each-game">
-  <h5> There is a game at {{ game.court_name }} at {{game.time | date: 'shortTime'}} </h5>
+  <h5> There is a game at <a ng-href="#/courts/{{game.court_id}}">{{ game.court_name }}</a> at {{game.time | date: 'shortTime'}} </h5>
   <h5> Skill Level: {{ game.skill_level/game.players.length }} </h5>
   <a id = "join-game-button" ng-click="joinGame(game._id); addGameToUser(game._id)" class="btn btn-primary">Join Game</a>
 </div>
