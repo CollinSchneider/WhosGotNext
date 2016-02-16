@@ -34,7 +34,7 @@ app.use('/api/users', usersRouter);
 var courtsRouter = require('./routers/courtsRouter');
 app.use('/api/courts', courtsRouter);
 
-var port = 'heroku_m6qsgdw7' || 8080;
+var port = process.env.MONGOLAB_URI || 8080;
 app.listen(port, function(){
   console.log('listening on port ', port);
 })
