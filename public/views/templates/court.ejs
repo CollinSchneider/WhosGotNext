@@ -32,14 +32,16 @@
 <h1 id = "game-title"> {{ court.Name }} </h1>
 <h3> {{ court.Location }} </h3>
 
-<a ng-click="makeGame = true" class = "btn btn-primary btn-xs" ng-hide="makeGame">Create Game at {{court.Name}}</a>
+<div id = "create-courts-game">
+  <a ng-click="makeGame = true" class = "btn btn-primary btn-xs" ng-hide="makeGame">Create Game at {{court.Name}}</a>
 
-<form ng-submit="createGameOnCourt(court._id)" class="create-game-form" ng-show="makeGame">
-  <a class = "btn btn-danger btn-xs" ng-click="makeGame = false">X</a>
-  <input type="date" name="name" value="" placeholder = "Date of Game" ng-model="newGame.date"> </br>
-  <input type="time" name="name" value="" placeholder = "Time of Game" ng-model="newGame.time"> </br>
-  <input type="submit" name="name" value="Create Game" class="btn btn-primary">
-</form>
+  <form ng-submit="createGameOnCourt(court._id)" class="create-game-form" ng-show="makeGame">
+    <a class = "btn btn-danger btn-xs" ng-click="makeGame = false">X</a>
+    <input type="date" name="name" value="" placeholder = "Date of Game" ng-model="newGame.date"> </br>
+    <input type="time" name="name" value="" placeholder = "Time of Game" ng-model="newGame.time"> </br>
+    <input type="submit" name="name" value="Create Game" class="btn btn-primary">
+  </form>
+</div>
 
 <div ng-repeat="game in courtsGames | orderBy: ['date', 'time']">
   <div ng-if="game.date >= todaysDate" id = "each-game">

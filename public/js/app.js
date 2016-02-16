@@ -73,52 +73,61 @@ app.controller('UsersController', ['$scope', '$http', '$cookies', function($scop
 
 app.controller('CourtsController', ['$scope', '$http', function($scope, $http){
 
+  var myMap = {};
+
   $scope.getCourts = function(){
     $http.get('/api/courts').then(function(response){
       $scope.courts = response.data.courts
-      console.log('courts: ', $scope.courts);
 
-      this.zoom = 12;
-      this.currentLatLng = new google.maps.LatLng( 40.7833, -73.9667 );
-      this.mapEl = document.querySelector('#map');
+      myMap.init = function(){
+        this.zoom = 12;
+        this.currentLatLng = new google.maps.LatLng( 40.7833, -73.9667 );
+        this.mapEl = document.querySelector('#map');
 
-      var myMap = {};
-
-      var map = new google.maps.Map( this.mapEl, {
+        var map = new google.maps.Map( this.mapEl, {
           center: this.currentLatLng,
           zoom: this.zoom,
           mapTypeId: google.maps.MapTypeId.DROP
-      })
-
-      var markers = [];
-      for (var i = 0; i < $scope.courts.length; i++) {
-        var court = $scope.courts[i];
-        this.courtLatLng = new google.maps.LatLng( court.lat, court.lon );
-
-        var icon = {
-          url: "../images/basketball.png",
-          scaledSize: new google.maps.Size(40, 40)
-        }
-
-        this.marker = new google.maps.Marker({
-          position: this.courtLatLng,
-          map: map,
-          title: court.Name,
-          court_id: court._id,
-          icon: icon,
-          animation: google.maps.Animation.DROP
-        });
-
-        markers.push(marker);
-
-        this.marker.addListener('click', function(){
-          var courtId = this.court_id;
-          window.location.href = "#/courts/" + courtId;
         })
+
+        var markers = [];
+        for (var i = 0; i < $scope.courts.length; i++) {
+          var court = $scope.courts[i];
+          this.courtLatLng = new google.maps.LatLng( court.lat, court.lon );
+
+          var icon = {
+            url: "../images/basketball.png",
+            scaledSize: new google.maps.Size(40, 40)
+          }
+
+          this.marker = new google.maps.Marker({
+            position: this.courtLatLng,
+            map: map,
+            title: court.Name,
+            court_id: court._id,
+            icon: icon,
+            animation: google.maps.Animation.DROP
+          });
+
+          markers.push(this.marker);
+
+          this.marker.addListener('click', function(){
+            var courtId = this.court_id;
+            window.location.href = "#/courts/" + courtId;
+          })
+        }
+        var markerCluster = new MarkerClusterer(map, markers);
       }
-      var markerCluster = new MarkerClusterer(map, markers);
+      myMap.init();
 
     })
+  }
+
+  $scope.showCourt = function(lat, lng){
+    myMap.currentLatLng = new google.maps.LatLng(lat, lng);
+    myMap.zoom = 30;
+    console.log(lat + ', ' + lng);
+    myMap.init();
   }
 
   $scope.getCourts();

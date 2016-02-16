@@ -163,6 +163,14 @@ body {
   margin-left: 10px;
 }
 
+#create-courts-game {
+  margin-bottom: 5px;
+}
+
+#each-court {
+  border-bottom: 1px dashed black;
+}
+
 /*.nav-links:hover {
   background: rgb(135, 135, 135);
 }*/

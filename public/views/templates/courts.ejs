@@ -29,7 +29,7 @@
 
 <h2 id = "game-title"> NYC Courts: </h2>
 <input ng-model="search.$" placeholder = "SEARCH FOR A COURT" id = "search-games">
-<div id = "all-courts" ng-repeat = "court in courts | filter:search">
-  <h3> <a ng-href="#/courts/{{ court._id }}">  {{ court.Name }} </a></h3>
+<div id = "each-court" ng-repeat = "court in courts | filter:search">
+  <h3> <a ng-href="#/courts/{{ court._id }}" ng-click="showCourt(court.lat, court.lon)">  {{ court.Name }} </a></h3>
   <h5> {{court.Location }} </h5>
 </div>
