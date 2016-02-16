@@ -11,7 +11,7 @@ app.use(bodyParser.json() );
 app.set('view-engine', 'ejs');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/whos_got_next');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/whos_got_next');
 
 app.use(express.static('./public'));
 
@@ -34,7 +34,7 @@ app.use('/api/users', usersRouter);
 var courtsRouter = require('./routers/courtsRouter');
 app.use('/api/courts', courtsRouter);
 
-var port = process.env.MONGOLAB_URI || 8080;
+var port = process.env.PORT || 8080;
 app.listen(port, function(){
   console.log('listening on port ', port);
 })
