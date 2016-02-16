@@ -34,7 +34,7 @@ app.use('/api/users', usersRouter);
 var courtsRouter = require('./routers/courtsRouter');
 app.use('/api/courts', courtsRouter);
 
-var port = 8080;
+var port = 'mongodb://heroku_m6qsgdw7:gapbeiegbpvmh24at9fdj2iek7@ds011218.mongolab.com:11218/heroku_m6qsgdw7' || 8080;
 app.listen(port, function(){
   console.log('listening on port ', port);
 })
