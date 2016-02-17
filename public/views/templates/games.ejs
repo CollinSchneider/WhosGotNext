@@ -32,7 +32,7 @@
   <div ng-repeat ="game in games | orderBy: ['date', 'time'] | filter:search">
 
     <div id="each-game" ng-if="game.date >= todaysDate">
-      <h4> There is a game on {{game.date | date}} at {{game.time | date: 'shortTime'}} at {{game.court_name}} </h4>
+      <h4> There is a game on {{game.date | date}} at {{game.time | date: 'shortTime'}} at <a ng-href="#/courts/{{game.court_id}}">{{game.court_name}}</a> </h4>
       <h5> Skill Level: {{ game.skill_level/game.players.length }} </h5>
       <a id = "join-game-button" ng-click="joinGame(game._id); addGameToUser(game._id)" class="btn btn-primary">Join Game</a>
     </div>

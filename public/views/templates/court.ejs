@@ -2,21 +2,21 @@
 <ul id = "dropdown" ng-show = "dropped">
 
   <a ng-href="#/courts">
-  <li class = "nav-links">All Courts</li>
+  <li class = "nav-links" ng-click="getCourts()">All Courts</li>
   </a>
 
   <a ng-href="#/games">
-  <li class = "nav-links">All Games</li>
+  <li class = "nav-links" ng-click="getCourts()">All Games</li>
   </a>
 
   <a ng-href="#/today">
-  <li class = "nav-links">Today's Games</li>
+  <li class = "nav-links" ng-click="getCourts()">Today's Games</li>
   </a>
 
   <a ng-href="#/">
-    <li class = "nav-links">Create a Game</li>
+    <li class = "nav-links" ng-click="getCourts()">Create a Game</li>
   </a>
-  <a ng-href='#/yourgames'>
+  <a ng-href='#/yourgames' ng-click="getCourts()">
     <li>Your Games</li>
   </a>
 
@@ -29,6 +29,7 @@
   </a>
 </ul>
 
+<a ng-href = "#/courts"> <h4><i class="fa fa-arrow-circle-o-left"></i> All Courts</h4></a>
 <h1 id = "game-title"> {{ court.Name }} </h1>
 <h3> {{ court.Location }} </h3>
 
