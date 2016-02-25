@@ -174,3 +174,24 @@ body {
 /*.nav-links:hover {
   background: rgb(135, 135, 135);
 }*/
+
+@media(max-width: 600px){
+  #map {
+    display: block;
+    width: 90%;
+    margin-left: 5%;
+  }
+  #create-games-div {
+    display: block;
+    width: 75%;
+    margin-left: 12.5%;
+  }
+  #title {
+    font-size: 20px;
+    margin-top: 30px;
+  }
+
+  #dropdown-button {
+    font-size: 50px;
+  }
+}
