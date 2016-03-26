@@ -2,8 +2,6 @@
 
 ![readme-gif](./public/images/whosgotnext.gif)
 
-'<img src="./public/images.whosgotnext.gif" style = "width: 100%"/>'
-
 ### About
 
 > A MEAN-Stack application that incorporates Google Maps to allow users to find and create pickup basketball games at any one of the 552 public basketball courts in NYC.
