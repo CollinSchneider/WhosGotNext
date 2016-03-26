@@ -1,12 +1,14 @@
 ![Alt text](./public/images/title.png)
 
-![Alt text](./public/images/whosgotnext.gif)
+![Alt text][logo](./public/images/whosgotnext.gif)
 
-### Who's Got Next
+<img src = './public/images.whosgotnext.gif' style = "width: 100%">
+
+### About
 
 > A MEAN-Stack application that incorporates Google Maps to allow users to find and create pickup basketball games at any one of the 552 public basketball courts in NYC.
 
-### Technologies
+### Technologies Used
 1. AngularJS
 2. MongoDB
 3. Express
