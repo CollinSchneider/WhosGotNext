@@ -1,8 +1,8 @@
 ![Alt text](./public/images/title.png)
 
-![Alt text][logo](./public/images/whosgotnext.gif)
+![Alt text](./public/images/whosgotnext.gif)
 
-<img src = './public/images.whosgotnext.gif' style = "width: 100%">
+<img src='./public/images.whosgotnext.gif' style = "width: 100%"/>
 
 ### About
 
